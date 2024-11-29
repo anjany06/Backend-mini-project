@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="w-full h-screen bg-zinc-900 text-white p-10">
+      <div class="w-full flex justify-end">
+        <!-- mb-5 work ni krega jbtk aap inline-block ni lgayoge   -->
+        <a
+          class="bg-red-500 rounded-md py-2 px-4 text-sm mb-5 inline-block"
+          href="/logout"
+          >Logout</a
+        >
+      </div>
+      <div class="flex items-end gap-3">
+        <div class="w-20 h-20 rounded-md overflow-hidden">
+          <img
+            class="w-full h-full object-cover"
+            src="/images/uploads/<%= user.profilepic %>"
+          />
+        </div>
+        <div class="flex flex-col">
+          <a
+            class="bg-yellow-500 py-2 px-3 rounded-md text-sm w-fit"
+            href="/profile/upload"
+            >Change Profile Pic</a
+          >
+          <h3 class="text-3xl my-1">
+            <span class="font-light">Hello</span>, <%= user.name %>
+          </h3>
+        </div>
+      </div>
+      <h5 class="mb-3">You can Create a new post</h5>
+      <form action="/post" method="post">
+        <textarea
+          class="p-3 block outline-none w-1/3 resize-none bg-transparent border-2 border-zinc-800 rounded-md mb-3"
+          name="content"
+          placeholder="What's on your mind ? "
+        ></textarea>
+        <input
+          class="px-5 py-3 bg-blue-500 block rounded-md text-sm"
+          type="submit"
+          value="Create post"
+        />
+      </form>
+      <div class="posts mt-20">
+        <h3 class="text-zinc-400">Your Posts.</h3>
+        <div class="postcontainer flex gap-3">
+          <% user.post.reverse().forEach(function(post){ %>
+
+          <div
+            class="post w-1/3 p-4 border-[1px] border-zinc-800 mt-4 rounded-md bg-zinc-800"
+          >
+            <h4 class="text-blue-500 mb-2">@<%=user.username %></h4>
+            <p class="text-sm tracking-tight"><%= post.content %></p>
+            <small class="mt-2 inline-block"
+              ><%= post.likes.length %> likes</small
+            >
+            <div class="btns flex gap-4 mt-1">
+              <a class="text-blue-500" href="/like/<%= post._id %>">
+                <%=post.likes.indexOf(user._id)=== -1 ? "like": "unlike" %></a
+              >
+              <a class="text-zinc-500" href="/edit/<%= post._id %>">Edit</a>
+            </div>
+          </div>
+          <%}) %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
